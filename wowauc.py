@@ -70,7 +70,10 @@ for item in ItemsToWatch:
   print "   ", iname
   items.sort(key=lambda z: z["buyout"]/z["quantity"])
 
-  for x in items:
+  for eitem in enumerate(items):
+    if eitem[0] >= 40:
+      break;
+    x = eitem[1]
     print "bid: ", x["bid"], "buyout:", x["buyout"], "stack:", x["quantity"], "buyout per unit:", x["buyout"]/x["quantity"], OwnerString(x)
 
 
