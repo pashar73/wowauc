@@ -54,7 +54,8 @@ if wowapi.CheckIsUpdated(urldata, "lastupdate.txt") | optForceUpdate:
 elif not optForcePrint:
   exit()
 
-ItemNames = wowapi.LoadItemNames("itemdata.txt")
+#ItemNames = wowapi.LoadItemNames("itemdata.txt")
+ItemName = wowapi.ItemNames("itemdata.txt")
 
 fdata = bz2.BZ2File("aucdata.txt.bz2", "r")
 JsonAucData=json.load(fdata)
@@ -62,10 +63,11 @@ fdata.close()
 AllItems = JsonAucData[wowapi.Faction]["auctions"]
 for item in ItemsToWatch:
   items = [x for x in AllItems if (x["item"] == item["id"]) & (x["buyout"] != 0) & (x["buyout"]/x["quantity"]  <= item["price"]) ]
-  if item["id"] not in ItemNames.keys():
-    wowapi.UpdateItemNames(item["id"], "itemdata.txt", ItemNames)
+  #if item["id"] not in ItemNames.keys():
+  #  wowapi.UpdateItemNames(item["id"], "itemdata.txt", ItemNames)
+  iname = ItemName.GetName(item["id"])
 
-  print "   ", ItemNames[item["id"]]
+  print "   ", iname
   items.sort(key=lambda z: z["buyout"]/z["quantity"])
 
   for x in items:
