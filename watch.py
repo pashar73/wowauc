@@ -51,10 +51,10 @@ def __Print__(lst):
 
 if __name__ == "__main__":
   Modified = False
-
   WatchList = GetWatchList("watchlist.txt")
 
-  ItemNames = wowapi.LoadItemNames("itemdata.txt")
+  #ItemNames = wowapi.LoadItemNames("itemdata.txt")
+  ItemNames = wowapi.ItemNames("itemdata.txt")
 
   ProcessOptions()
 
@@ -69,18 +69,15 @@ if __name__ == "__main__":
     for item in WatchList:
       if item["id"] == ItemID:
         WatchList.remove(item)
+        Modified = True
         break
-    Modified = True
   elif Operation == OPERATION_PRINT:
     __Print__(WatchList)
 
   # Update names
   for item in WatchList:
     if item["name"] == "":
-      if item["id"] not in ItemNames.keys():
-        wowapi.UpdateItemNames(item["id"], "itemdata.txt", ItemNames)
-      item["name"] = ItemNames[item["id"]]
-      Modified = True
+      item["name"] = ItemNames.GetName(item["id"])
 
   if Modified:
     listfile = open("watchlist.txt", "w")
